@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-b&=u6_4z&(zka_7clk()myq-zzqtcw2@v2lh&c7uo-2m+=u$*j
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://e-shop-proj.herokuapp.com/', 'www.e-shop-proj.herokuapp.com/']
+ALLOWED_HOSTS = ['https://e-shop-proj.herokuapp.com/', 'www.e-shop-proj.herokuapp.com/', 'e-shop-proj.herokuapp.com']
 
 
 # Application definition
