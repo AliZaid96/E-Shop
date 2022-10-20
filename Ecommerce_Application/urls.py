@@ -17,6 +17,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('user_accounts.urls')),
     path('', include('store.urls')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
