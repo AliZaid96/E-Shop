@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Address Book{% endblock %}
+{%block content%}		
+	<!-- Product Style -->
+	<section class="product-area shop-sidebar shop section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-4 col-12">
+					<div class="shop-sidebar">
+							<!-- Single Widget -->
+							<div class="single-widget category">
+								<h3 class="title">Manage Your Account</h3>
+								<ul class="categor-list">
+									
+									<li ><a  href="{% url 'profile'%}">My Profile</a></li>
+									<li><a href="{% url 'address_book'%}">Address Book</a></li>
+                                    	
+								</ul>
+                                <br>
+                                <h3 class="title">My Orders</h3>
+								<ul class="categor-list">
+									<li><a href="#">All Orders</a></li>
+
+                                    	
+								</ul>
+							</div>
+							<!--/ End Single Widget -->
+				
+					</div>
+				</div>
+				<div class="col-lg-9 col-md-8 col-12">
+					<div class="row">
+                        <div class="col-12">
+                            <h3>My Address Book</h3>
+                        </div>
+                        
+                        <div class="card col-12 mt-2">
+                            <div class="card-body">
+								
+								<form action="" method="post">
+									{% csrf_token %}
+									{% for fm in form %}
+									<div class="form-group col-lg-6 mb-3">
+									  {{fm.label_tag}} {{fm}} <small class="text-danger">{{fm.errors|striptags}}</small>
+									</div>
+									{% endfor %}
+									<div class="col-12 mt-3">
+									  <button type="submit" class="btn btn-primary">Submit</button>
+									</div>
+									{% if form.non_field_errors %}
+										{% for error in form.non_field_errors %}
+											<p class="alert alert-danger my-3">{{error}}</p>
+										{% endfor %}
+									{% endif %}
+								  </form>
+								  {% if messages %}
+								  {% for message in messages %}
+									<p {% if message.tags %} class="alert alert-{{message.tags}} my-5" {% endif %}>{{message}}</p>
+								  {% endfor %}
+							  {% endif %}
+                                  <!-- <div class="row"><button class="btn btn primary"></button></div> -->
+                                  
+                            </div>
+                          </div>
+						  <div class="card col-12 mt-2">
+                            <div class="card-body">
+								
+								<table class="table">
+									<thead>
+									  <tr>
+										<th scope="col">Address</th>
+										<th scope="col">City</th>
+										<th scope="col">Street</th>
+										<th scope="col">Action</th>
+									  </tr>
+									</thead>
+									<tbody>
+									{% for x in add%}
+									  <tr>
+										<th scope="row">{{forloop.counter}}</th>
+										<td>{{x.city}}</td>
+										<td>{{x.street}}</td>
+										<td><a class="btn btn-primary" href="{% url 'delete-address' x.pk %}">Delete</a></td>
+									  </tr>
+									{% endfor%}
+									  
+									</tbody>
+								  </table>
+                                  <!-- <div class="row"><button class="btn btn primary"></button></div> -->
+                                  
+                            </div>
+                          </div>
+
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--/ End Product Style 1  -->	
+{%endblock%}

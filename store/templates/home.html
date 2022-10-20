@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load filtering_and_pagination %}
+{%block title%}Home{% endblock%}
+{%block content%}		
+		<!-- Product Style -->
+		<section class="product-area shop-sidebar shop section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-12">
+						<div class="shop-sidebar">
+								<!-- Single Widget -->
+								<div class="single-widget category">
+									<h3 class="title">Categories</h3>
+									<ul class="categor-list">
+										{% for category in categories %}
+											<li><a href="{% url 'category_products' category.pk %}" {% if category.pk == category_id %}class='active'{% endif %}>{{category.title}}</a></li>
+										{% endfor %}
+										
+									</ul>
+								</div>
+								<!--/ End Single Widget -->
+								<!-- Shop By Price -->
+									
+									<!--/ End Shop By Price -->
+								<!-- Single Widget -->
+								<div class="single-widget recent-post">
+									<h3 class="title">Recent post</h3>
+									<!-- Single Post -->
+									{% for product in recent_product %}
+										<div class="single-post first">
+											<div class="image">
+												<img src="{% if product.img %}{{product.img}}{% else %}{{product.image.url}}{% endif %}" alt="#">
+											</div>
+											<div class="content">
+												<h5><a href="{% url 'product' product.id %}">{{product.title}}</a></h5>
+												<p class="price">${{product.unit_price}}</p>
+												<ul class="reviews">
+													<li class="yellow"><i class="ti-star"></i></li>
+													<li class="yellow"><i class="ti-star"></i></li>
+													<li class="yellow"><i class="ti-star"></i></li>
+													<li><i class="ti-star"></i></li>
+													<li><i class="ti-star"></i></li>
+												</ul>
+											</div>
+										</div>
+									{% endfor %}
+									<!-- End Single Post -->
+									<!-- Single Post -->
+								
+									<!-- End Single Post -->
+								</div>
+								<!--/ End Single Widget -->
+								<!-- Single Widget -->
+							
+								<!--/ End Single Widget -->
+						</div>
+					</div>
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="row">
+							<div class="col-12">
+								<!-- Shop Top -->
+								<div class="shop-top">
+									<div class="shop-shorter">
+										<div class="single-shorter">
+											<div class="input-group">
+												<label>Sort By :</label>
+												<form action="/", method="POST" class="filter_form">
+													{%csrf_token%}
+													<select  name="order_by" class="form-control mr-3" style="height: 42px;">
+														<option selected value="title">Title</option>
+														<option value="unit_price">Unit Price</option>
+														<option value="added">Newest</option>
+													</select>
+													<button type="submit" class="btn btn-light">Apply</button>
+												</form>
+											</div>
+										</div>
+									</div>
+
+								</div>
+								<!--/ End Shop Top -->
+							</div>
+						</div>
+						<div class="row">
+							<!--/ Products -->
+							{% for product in products %}
+								<div class="col-lg-4 col-md-6 col-12">
+									<div class="single-product">
+										<div class="product-img">
+											<a href="{% url 'product' product.id %}">
+												<img class="default-img" width="550" height="200px" src="{% if product.img %}{{product.img}}{% else %}{{product.image.url}}{% endif %}" alt="#" style="height: 200px">
+											</a>
+											<div class="button-head">
+												<div class="product-action">
+													<a href="{% url 'product' product.id %}"><i class=" ti-eye"></i><span>Product Details</span></a>
+													<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+												</div>
+												<div class="product-action-2">
+													<a title="Add to cart" data-id={{product.pk}} data-name="{{product.title}}" data-summary="{{product.description}}" data-price="{{product.unit_price}}" data-quantity="1" data-image="images/img_2.png" class="add-to-cart">Add to cart</a>
+												</div>
+											</div>
+										</div>
+										<div class="product-content">
+											<h3><a href="{% url 'product' product.id %}">{{product.title}}</a></h3>
+											<div class="product-price">
+												<span>${{product.unit_price}}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endfor%}
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="align-middle text-center">
+	        	{% if products.has_other_pages %}
+	                {% if products.has_previous %}
+	                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=1 %}">First</a>
+	                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.previous_page_number %}">Previous</a>
+	                {% endif %}
+	                {% for num in products.paginator.page_range %}
+	                    {% if products.number == num %}
+	                        <a class="btn btn-info mb-4" href="?page{% param_replace page=num %}">{{ num }}</a>
+	                    {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+	                        <a class="btn btn-outline-info mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
+	                    {% endif %}
+	                {% endfor %}
+	                {% if products.has_next %}
+	                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.next_page_number %}">Next</a>
+	                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=paginator.num_pages %}">Last</a>
+	                {% endif %}
+	            {% endif %}
+	        </div>
+		</section>
+		<!--/ End Product Style 1  -->
+{%endblock%}
